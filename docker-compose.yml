@@ -1,11 +1,33 @@
-# Opcional: roda o backend fornecido localmente (store em memória, porta 4000).
-# Alternativa sem Docker:  cd server && node local.mjs
+# Sobe o projeto inteiro: backend fornecido (store em memória, :4000) + frontend Next (:3000).
+#   docker compose up --build      ->  http://localhost:3000
+#
+# A URL da API é lida do .env da raiz (veja envexample.txt). Por padrão o frontend conversa
+# com o backend local deste compose.
 services:
   api:
     image: node:22-alpine
     working_dir: /app
     command: node local.mjs
+    environment:
+      - PORT=4000
     ports:
       - "4000:4000"
     volumes:
       - ./server:/app
+    restart: unless-stopped
+
+  web:
+    build:
+      context: ./frontend
+      args:
+        # Embutido no bundle do CLIENTE — precisa ser alcançável pelo NAVEGADOR (host).
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:4000}
+    environment:
+      # Usado pelo SSR dentro da rede do Docker (Server Components / prefetch).
+      - API_URL_INTERNAL=${API_URL_INTERNAL:-http://api:4000}
+      - NEXT_PUBLIC_API_URL=${NEXT_PUBLIC_API_URL:-http://localhost:4000}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    restart: unless-stopped
