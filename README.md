@@ -45,7 +45,7 @@ NEXT_PUBLIC_API_URL=https://8tymn68hp9.execute-api.us-east-1.amazonaws.com
 | POST | `/conversations/:id/messages` | Envia mensagem `{ text }` |
 | POST | `/ai/suggest` | Sugestão da IA `{ conversationId }` |
 
-O cliente HTTP e os tipos já vêm prontos em [`lib/api.ts`](lib/api.ts). Se preferir rodar o
+O cliente HTTP e os tipos já vêm prontos em [`lib/api.ts`](frontend/lib/api.ts). Se preferir rodar o
 backend localmente (offline), veja [`server/README.md`](server/README.md).
 
 ---
@@ -54,7 +54,7 @@ backend localmente (offline), veja [`server/README.md`](server/README.md).
 
 ```bash
 # 1. Configure a URL da API (já vem preenchida com a URL hospedada)
-cp .env.example .env.local
+cp envexample.txt .env.local
 
 # 2. Instale e rode
 npm install
