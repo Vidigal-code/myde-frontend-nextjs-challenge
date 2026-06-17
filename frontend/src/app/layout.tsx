@@ -13,6 +13,10 @@ export const metadata: Metadata = {
   description: "Painel de atendimento via WhatsApp com sugestões de IA.",
 };
 
+// Os dados do inbox são por requisição (lista/mensagens ao vivo): renderiza dinâmico para que
+// o prefetch SSR rode a cada request contra a API — e não no build (quando ela está indisponível).
+export const dynamic = "force-dynamic";
+
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
